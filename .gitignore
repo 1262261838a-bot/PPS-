@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+int findNearest(int *dist, int n) {
+    // Dereference the base pointer to get the first element (equivalent to dist[0])
+    int min = *dist; 
+
+    for (int i = 1; i < n; i++) {
+        // *(dist + i) accesses the value at memory address (dist + i)
+        if (*(dist + i) < min) {
+            min = *(dist + i);
+        }
+    }
+    return min;
+}
+
+int main() {
+    int dist;
+    int *ptr = dist; // Pointer pointing to the start of the dist array
+    int n, min;
+
+    printf("Enter number of sensors (1-5): ");
+    scanf("%d", &n);
+
+    if (n < 1 || n > 5) {
+        printf("Invalid number of sensors!\n");
+        return 1;
+    }
+
+    printf("Enter sensor readings (in cm):\n");
+    for (int i = 0; i < n; i++) {
+        printf("Sensor %d: ", i + 1);
+        // (ptr + i) directly gives the memory address for scanf (replaces &dist[i])
+        scanf("%d", (ptr + i)); 
+    }
+
+    min = findNearest(ptr, n);
+    printf("\nThe nearest sensor distance is: %d cm\n", min);
+
+    if (min < 20) {
+        printf("WARNING: Obstacle too close!\n");
+    } else {
+        printf("Path is clear\n");
+    }
+
+    return 0;
+}
